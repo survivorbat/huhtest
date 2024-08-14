@@ -125,6 +125,9 @@ type response struct {
 	// being repeated
 	answers []string
 
+	// submitCharacter is used if non-empty, as some questions may get tangled if we use the defaultSubmit
+	submitCharacterOverride string
+
 	actualTimes   int
 	expectedTimes int
 }
@@ -152,4 +155,14 @@ func (q *response) pickAnswer() (string, error) {
 // lastAnswer is a convenience method for getting the final answer in the answers slice.
 func (q *response) lastAnswer() string {
 	return q.answers[len(q.answers)-1]
+}
+
+// submitCharacter is used to catch any special submit situations, such as with select questions
+// that only require a \r and not the \n. If no override character has been defined, defaultSubmit is returned.
+func (q *response) submitCharacter() string {
+	if q.submitCharacterOverride != "" {
+		return q.submitCharacterOverride
+	}
+
+	return defaultSubmit
 }

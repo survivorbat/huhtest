@@ -10,12 +10,16 @@ import (
 	testingi "github.com/mitchellh/go-testing-interface"
 )
 
+// Reference: https://www.alanwood.net/demos/ansi.html
 const (
-	// submit is appended to all responses to move to the next one
-	submit = "\r"
+	// defaultSubmit is appended to all responses to move to the next one. These represent \r\n.
+	defaultSubmit = "\x0D\x0A"
+
+	// selectSubmit is a special case where the defaultSubmit messes up the input in select statements
+	selectSubmit = "\x0D"
 
 	// selectOption is used in a select and multiselect to mark or unmark an item
-	selectOption = " "
+	selectOption = "\x20"
 
 	// arrowDown is used in a select and multiselect to move downwards
 	arrowDown = "\x1b[B"
@@ -27,7 +31,7 @@ const (
 // readableReplacer is used primarily for logging to represent awkward
 // characters with a readable representation
 var readableReplacer = strings.NewReplacer(
-	submit, "<submit>",
+	defaultSubmit, "<submit>",
 	arrowDown, "<down>",
 	arrowRight, "<right>",
 )
@@ -119,6 +123,7 @@ func (r *Responder) addSelects(question string, options ...int) *Responder {
 	r.saveResponse()
 
 	r.latestQuestion = question
+	r.latestResponse.submitCharacterOverride = selectSubmit
 
 	for _, optionIndex := range options {
 		r.latestResponse.answers = append(r.latestResponse.answers, strings.Repeat(arrowDown, optionIndex))
@@ -318,7 +323,7 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 					t.Error(err)
 				}
 
-				answer += submit
+				answer += response.submitCharacter()
 
 				log("Replying:", readableReplacer.Replace(answer))
 				if _, err := answerInput.Write([]byte(answer)); err != nil {

@@ -28,7 +28,7 @@ func simulateCLI(t *testing.T, questions []string, stdout *io.PipeWriter, stdin 
 	for index, question := range questions {
 		t.Logf("Posing question: %s", question)
 
-		_, err := stdout.Write([]byte(question + "\n\r"))
+		_, err := stdout.Write([]byte(question + defaultSubmit))
 		require.NoError(t, err)
 
 		line, err := reader.ReadString('\r')
@@ -36,6 +36,9 @@ func simulateCLI(t *testing.T, questions []string, stdout *io.PipeWriter, stdin 
 
 		// Strip trailing submit character
 		line = strings.TrimSuffix(line, "\r")
+
+		// Strip leading submit character, this works in the integration tests so I assume it's valid
+		line = strings.TrimPrefix(line, "\n")
 
 		actualAnswers[index] = readableReplacer.Replace(line)
 	}

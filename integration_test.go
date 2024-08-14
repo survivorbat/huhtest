@@ -15,9 +15,8 @@ func TestHuhTest_RespondsCorrectlyToQuestions(t *testing.T) {
 		input string
 
 		groupInputA string
-		// TODO: Get groups working
-		// groupInputB string
-		// groupInputC string
+		groupInputB string
+		groupInputC string
 
 		confirmTrue  bool
 		confirmFalse bool
@@ -44,13 +43,12 @@ func TestHuhTest_RespondsCorrectlyToQuestions(t *testing.T) {
 			huh.NewInput().
 				Title("Group Question A?").
 				Value(&actual.groupInputA),
-			// TODO: Get groups working
-			// huh.NewInput().
-			// 	Title("Group Question B?").
-			// 	Value(&actual.groupInputB),
-			// huh.NewInput().
-			// 	Title("Group Question C?").
-			// 	Value(&actual.groupInputC),
+			huh.NewInput().
+				Title("Group Question B?").
+				Value(&actual.groupInputB),
+			huh.NewInput().
+				Title("Group Question C?").
+				Value(&actual.groupInputC),
 		),
 		// Confirm question with a true answer
 		huh.NewGroup(
@@ -125,9 +123,8 @@ func TestHuhTest_RespondsCorrectlyToQuestions(t *testing.T) {
 		AddResponse("How Are You Feeling?", "Amazing Thanks!").
 		// Questions in a group
 		AddResponse("Group Question A?", "Foo").
-		// TODO: Get groups working
-		// AddResponse("Group Question B?", "Bar").
-		// AddResponse("Group Question C?", "Baz").
+		AddResponse("Group Question B?", "Bar").
+		AddResponse("Group Question C?", "Baz").
 		// Confirm question with a true answer
 		AddConfirm("Would you like a drink?", ConfirmAffirm).
 		// Confirm question with a false answer
@@ -154,11 +151,10 @@ func TestHuhTest_RespondsCorrectlyToQuestions(t *testing.T) {
 	require.NoError(t, err)
 
 	expected := answers{
-		input:       "Amazing Thanks!",
-		groupInputA: "Foo",
-		// TODO: Get groups working
-		// groupInputB:          "Bar",
-		// groupInputC:          "Baz",
+		input:                "Amazing Thanks!",
+		groupInputA:          "Foo",
+		groupInputB:          "Bar",
+		groupInputC:          "Baz",
 		confirmTrue:          true,
 		confirmFalse:         false,
 		singleSelect1:        "a",

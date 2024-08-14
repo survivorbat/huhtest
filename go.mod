@@ -1,6 +1,6 @@
 module github.com/survivorbat/huhtest
 
-go 1.22.2
+go 1.22.4
 
 require (
 	github.com/charmbracelet/huh v0.5.1

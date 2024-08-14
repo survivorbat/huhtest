@@ -281,3 +281,27 @@ func TestResponse_LastAnswer_ReturnsLastAnswer(t *testing.T) {
 	// Assert
 	assert.Equal(t, "e", result)
 }
+
+func TestResponse_SubmitCharacter_ReturnsExpectedCharacter(t *testing.T) {
+	t.Parallel()
+
+	tests := map[string]string{
+		"":              defaultSubmit,
+		"anything else": "anything else",
+	}
+
+	for submitCharacterOverride, expected := range tests {
+		t.Run(submitCharacterOverride, func(t *testing.T) {
+			t.Parallel()
+			res := response{
+				submitCharacterOverride: submitCharacterOverride,
+			}
+
+			// Act
+			result := res.submitCharacter()
+
+			// Assert
+			assert.Equal(t, expected, result)
+		})
+	}
+}
