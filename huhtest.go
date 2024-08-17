@@ -61,6 +61,19 @@ func NewResponder() *Responder {
 	}
 }
 
+// NewResponderWith is a lot like NewResponder, but initialises the given questions and responses automatically.
+// This only works for simple responses, select, multi-select and confirms have to be added manually afterwards.
+// Please refer to the documentation of NewResponder to learn more about its usages.
+func NewResponderWith(questionResponses map[string][]string) *Responder {
+	responder := NewResponder()
+
+	for question, answers := range questionResponses {
+		responder.addResponses(question, answers...)
+	}
+
+	return responder
+}
+
 // Responder is a builder that allows you to put together a list of responses
 // to questions asked in a form. Check out NewResponder for more information.
 type Responder struct {

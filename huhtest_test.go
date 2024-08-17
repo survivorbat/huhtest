@@ -264,3 +264,28 @@ func TestResponder_Start_CancelFunctionClosesPipes(t *testing.T) {
 	_, writeErr := formOutput.Write([]byte{})
 	require.ErrorIs(t, writeErr, io.ErrClosedPipe)
 }
+
+func TestNewResponderWith_SetsExpectedRespones(t *testing.T) {
+	t.Parallel()
+	// Arrange
+	responses := map[string][]string{
+		"a": {"b", "c"},
+		"1": {"2", "4"},
+	}
+
+	questions := []string{"a", "1", "a", "1"}
+	expectedAnswers := []string{"b", "2", "c", "4"}
+
+	// Act
+	responder := NewResponderWith(responses)
+
+	// Assert
+	stdin, stdout, closer := responder.Start(t, defaultTimeout)
+
+	// Assert
+	defer closer()
+
+	actualAnswers := simulateCLI(t, questions, stdout, stdin)
+
+	assert.Equal(t, expectedAnswers, actualAnswers)
+}
