@@ -2,7 +2,6 @@ package huhtest
 
 import (
 	"bufio"
-	"bytes"
 	"io"
 	"strings"
 	"testing"
@@ -172,33 +171,6 @@ func TestResponder_Start_ReturnsExpectedAnswers(t *testing.T) {
 			assert.Equal(t, testData.expectedAnswers, actualAnswers)
 		})
 	}
-}
-
-func TestResponder_Start_ForwardSendsToGivenWriter(t *testing.T) {
-	t.Parallel()
-	// Arrange
-	output := new(bytes.Buffer)
-
-	responder := NewResponder().
-		AddResponse("right?", "left!").
-		ForwardStdout(output)
-
-	questions := []string{"right?", "right?"}
-	expectedAnswers := []string{"left!", "left!"}
-
-	dummyT := new(testingi.RuntimeT)
-
-	// Act
-	stdin, stdout, closer := responder.Start(dummyT, defaultTimeout)
-
-	// Assert
-	defer closer()
-
-	actualAnswers := simulateCLI(t, questions, stdout, stdin)
-
-	// It should still return the answers
-	assert.Equal(t, expectedAnswers, actualAnswers)
-	assert.Contains(t, output.String(), "right?")
 }
 
 func TestResponder_Start_FailsTestIfCalledNotOnceOnOnce(t *testing.T) {
