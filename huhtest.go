@@ -57,7 +57,8 @@ func NewResponder() *Responder {
 		latestQuestionMatchType: defaultQuestionMatchType,
 		latestResponse:          new(response),
 
-		responses: newResponses(),
+		forwardStdout: io.Discard,
+		responses:     newResponses(),
 	}
 }
 
@@ -87,6 +88,10 @@ type Responder struct {
 
 	// debug can be flipped to increase debugging in the Start method
 	debug bool
+
+	// forwardStdout will forward all the lines received to the given writer. Uses
+	// io.Discard by default.
+	forwardStdout io.Writer
 
 	responses *responses
 }
@@ -322,6 +327,8 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 		lineReader := bufio.NewScanner(questionOutput)
 
 		for lineReader.Scan() {
+			r.forwardStdout.Write(lineReader.Bytes())
+
 			line := lineReader.Text()
 
 			log("Got line:", line)
@@ -368,5 +375,12 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 // Debug turns on logging for debugging forms
 func (r *Responder) Debug() *Responder {
 	r.debug = true
+	return r
+}
+
+// ForwardStdout allows you to forward any received stdout to the given writer, such as the 'real' stdout
+// or a buffer that you later use to perform test assertions on.
+func (r *Responder) ForwardStdout(out io.Writer) *Responder {
+	r.forwardStdout = out
 	return r
 }
