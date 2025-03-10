@@ -327,7 +327,7 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 		lineReader := bufio.NewScanner(questionOutput)
 
 		for lineReader.Scan() {
-			r.forwardStdout.Write(lineReader.Bytes())
+			r.forwardStdout.Write(append(lineReader.Bytes(), byte('\n')))
 
 			line := lineReader.Text()
 
