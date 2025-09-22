@@ -336,10 +336,15 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 					t.Error(err)
 				}
 
-				answer += response.submitCharacter()
-
 				log("Replying:", readableReplacer.Replace(answer))
 				if _, err := answerInput.Write([]byte(answer)); err != nil {
+					t.Error(err)
+				}
+
+				time.Sleep(20 * time.Millisecond)
+
+				log("Sending submit character ...")
+				if _, err := answerInput.Write([]byte(response.submitCharacter())); err != nil {
 					t.Error(err)
 				}
 
