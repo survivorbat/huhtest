@@ -7,7 +7,6 @@ import (
 	"testing"
 	"time"
 
-	testingi "github.com/mitchellh/go-testing-interface"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -183,7 +182,7 @@ func TestResponder_Start_FailsTestIfCalledNotOnceOnOnce(t *testing.T) {
 	questions := []string{"right?", "right?"}
 	expectedAnswers := []string{"left!", "left!"}
 
-	dummyT := new(testingi.RuntimeT)
+	dummyT := new(testing.T)
 
 	// Act
 	stdin, stdout, closer := responder.Start(dummyT, defaultTimeout)
@@ -209,7 +208,7 @@ func TestResponder_Start_FailsTestIfCalledMoreThanTimes(t *testing.T) {
 	questions := []string{"right?", "right?", "right?", "right?", "right?"}
 	expectedAnswers := []string{"left!", "left!", "left!", "left!", "left!"}
 
-	dummyT := new(testingi.RuntimeT)
+	dummyT := new(testing.T)
 
 	// Act
 	stdin, stdout, closer := responder.Start(dummyT, defaultTimeout)
@@ -230,7 +229,7 @@ func TestResponder_Start_TimeoutClosesPipesAndFailsTest(t *testing.T) {
 	// Arrange
 	responder := NewResponder()
 
-	dummyT := new(testingi.RuntimeT)
+	dummyT := new(testing.T)
 
 	// Act
 	formInput, formOutput, cancel := responder.Start(dummyT, 0)
