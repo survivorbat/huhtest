@@ -186,22 +186,22 @@ func (r *Responder) addMultiSelects(question string, options ...[]int) *Responde
 	return r
 }
 
-// confirmResponse could have been a boolean, but I wanted to be more semantic by using Affirm and Negative like huh does it.
-type confirmResponse string
+// ConfirmResponse could have been a boolean, but I wanted to be more semantic by using Affirm and Negative like huh does it.
+type ConfirmResponse string
 
 const (
 	// ConfirmAffirm is the 'yes' answer in a Confirm question
-	ConfirmAffirm confirmResponse = "yes"
+	ConfirmAffirm ConfirmResponse = "yes"
 
 	// ConfirmAffirm is the 'no' answer in a Confirm question
-	ConfirmNegative confirmResponse = "no"
+	ConfirmNegative ConfirmResponse = "no"
 )
 
 // AddConfirm adds a confirm response to the Responder. If the same question comes up multiple times, the same response will be returned by default. Use Times()
 // or Once() to modify this behaviour and register an error.
 //
 // Multiple answers to the same question can be added by repeating this call.
-func (r *Responder) AddConfirm(question string, answer confirmResponse) *Responder {
+func (r *Responder) AddConfirm(question string, answer ConfirmResponse) *Responder {
 	return r.addConfirms(question, answer)
 }
 
@@ -211,7 +211,7 @@ func (r *Responder) AddConfirm(question string, answer confirmResponse) *Respond
 // Multiple answers to the same question can be added by repeating this call.
 //
 // NOTICE: This method is currently not exported, might consider doing this later
-func (r *Responder) addConfirms(question string, answers ...confirmResponse) *Responder {
+func (r *Responder) addConfirms(question string, answers ...ConfirmResponse) *Responder {
 	r.saveResponse()
 
 	r.latestQuestion = question
