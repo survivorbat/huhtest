@@ -167,12 +167,14 @@ func (r *Responder) addMultiSelects(question string, options ...[]int) *Responde
 	var answer strings.Builder
 
 	for _, option := range options {
-		for index := range option[len(option)-1] + 1 {
-			if slices.Contains(option, index) {
-				answer.WriteString(selectOption)
-			}
+		if len(option) > 0 {
+			for index := range option[len(option)-1] + 1 {
+				if slices.Contains(option, index) {
+					answer.WriteString(selectOption)
+				}
 
-			answer.WriteString(arrowDown)
+				answer.WriteString(arrowDown)
+			}
 		}
 
 		// Remove trailing down arrows
