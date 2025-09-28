@@ -138,8 +138,6 @@ func TestHuhTest_RespondsCorrectlyToQuestions(t *testing.T) {
 		// Simple question that gets asked twice (2)
 		AddResponse("Are You OK? (gonna ask you twice)", "yes").
 		AddResponse("Are You OK? (gonna ask you twice)", "yes for sure").
-		// Better for debugging
-		Debug().
 		Start(t, defaultTimeout)
 
 	defer closeResponder()
