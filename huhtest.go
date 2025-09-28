@@ -339,7 +339,8 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 
 				log("Replying:", readableReplacer.Replace(answer))
 
-				if _, err := answerInput.Write([]byte(answer)); err != nil {
+				_, err = answerInput.Write([]byte(answer))
+				if err != nil {
 					t.Error(err)
 				}
 
