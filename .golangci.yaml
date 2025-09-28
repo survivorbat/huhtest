@@ -1,113 +1,60 @@
-issues:
-  exclude-rules:
-    - path: (.+)_test.go
-      linters:
-        - goconst # Test data doesn't need to be in constants
-        - err113 # We're not defining static errors in tests
-
-linters-settings:
-  nlreturn:
-    # Allow 2 lines max to have a return statement without a new line before it
-    block-size: 3
-
-  gocritic:
-    disabled-checks:
-      - "paramTypeCombine"
-      - "unnamedResult"
-    enabled-tags:
-      - "performance"
-      - "style"
-      - "diagnostic"
-
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment
-
+version: "2"
 linters:
+  default: all
+  disable:
+    - depguard
+    - exhaustruct
+    - funlen
+    - funcorder
+    - gochecknoglobals
+    - godot
+    - godox
+    - lll
+    - testpackage
+    - varnamelen
+    - wrapcheck
+    - wsl
+    - noinlineerr
+  settings:
+    gocritic:
+      disabled-checks:
+        - paramTypeCombine
+        - unnamedResult
+      enabled-tags:
+        - performance
+        - style
+        - diagnostic
+    govet:
+      disable:
+        - fieldalignment
+      enable-all: true
+    nlreturn:
+      block-size: 3
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - err113
+          - goconst
+        path: (.+)_test.go
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
   enable:
-    - asasalint
-    - asciicheck
-    - bidichk
-    - bodyclose
-    - canonicalheader
-    - containedctx
-    - contextcheck
-    - copyloopvar
-    - cyclop
-    - decorder
-    - dogsled
-    - dupword
-    - durationcheck
-    - errcheck
-    - errchkjson
-    - errname
-    - errorlint
-    - exhaustive
-    - exportloopref
-    - forbidigo
-    - ginkgolinter
-    - gocheckcompilerdirectives
-    - gochecknoinits
-    - gocognit
-    - goconst
-    - gocritic
-    - gocyclo
-    - err113 
+    - gci
     - gofmt
     - gofumpt
-    - goheader
     - goimports
-    - gomoddirectives
-    - gomodguard
-    - goprintffuncname
-    - gosec
-    - gosimple
-    - gosmopolitan
-    - govet
-    - grouper
-    - importas
-    - ineffassign
-    - interfacebloat
-    - intrange
-    - ireturn
-    - loggercheck
-    - maintidx
-    - makezero
-    - mirror
-    - misspell
-    - mnd
-    - musttag
-    - nakedret
-    - nestif
-    - nilerr
-    - nilnil
-    - nlreturn
-    - nolintlint
-    - nonamedreturns
-    - nosprintfhostport
-    - paralleltest 
-    - perfsprint
-    - prealloc
-    - predeclared
-    - promlinter
-    - reassign
-    - revive
-    - rowserrcheck
-    - spancheck
-    - sqlclosecheck
-    - staticcheck
-    - tagalign
-    - tagliatelle
-    - tenv
-    - testifylint
-    - thelper
-    - tparallel
-    - typecheck
-    - unconvert
-    - unparam
-    - unused
-    - usestdlibvars
-    - wastedassign
-    - whitespace
-    - zerologlint
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$   - zerologlint
