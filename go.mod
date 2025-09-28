@@ -4,7 +4,6 @@ go 1.22.4
 
 require (
 	github.com/charmbracelet/huh v0.5.1
-	github.com/mitchellh/go-testing-interface v1.14.1
 	github.com/stretchr/testify v1.9.0
 )
 

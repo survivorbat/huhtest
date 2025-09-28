@@ -6,8 +6,6 @@ import (
 	"slices"
 	"strings"
 	"time"
-
-	testingi "github.com/mitchellh/go-testing-interface"
 )
 
 // Reference: https://www.alanwood.net/demos/ansi.html
@@ -301,7 +299,7 @@ type Closer func()
 //	defer cancel()
 //
 //	myForm.WithInput(stdIn).WithOutput(stdOut).Run()
-func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, *io.PipeWriter, Closer) {
+func (r *Responder) Start(t TestingT, timeout time.Duration) (*io.PipeReader, *io.PipeWriter, Closer) {
 	t.Helper()
 
 	r.saveResponse()
