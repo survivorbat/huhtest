@@ -18,7 +18,7 @@ import (
 // to the io.PipeWriter in order and answers are captured line-by-line from the io.PipeReader.
 //
 // Returns the captured answers
-func simulateCLI(t *testing.T, questions []string, stdout *io.PipeWriter, stdin *io.PipeReader) []string {
+func simulateCLI(t *testing.T, questions []string, stdout io.Writer, stdin io.Reader) []string {
 	t.Helper()
 
 	actualAnswers := make([]string, len(questions))

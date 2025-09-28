@@ -301,7 +301,7 @@ type Closer func()
 //	defer cancel()
 //
 //	myForm.WithInput(stdIn).WithOutput(stdOut).Run()
-func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, *io.PipeWriter, Closer) {
+func (r *Responder) Start(t testingi.T, timeout time.Duration) (io.Reader, io.Writer, Closer) {
 	t.Helper()
 
 	r.saveResponse()
