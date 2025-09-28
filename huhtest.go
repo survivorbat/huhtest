@@ -343,7 +343,7 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 
 				time.Sleep(20 * time.Millisecond)
 
-				log("Sending submit character ...")
+				log("Sending submit character...")
 				if _, err := answerInput.Write([]byte(response.submitCharacter())); err != nil {
 					t.Error(err)
 				}
