@@ -18,7 +18,7 @@ jobs:
           go-version: stable
 
       - name: Test
-        run: go test -v ./...
+        run: go test ./...
 
   golangci:
     runs-on: ubuntu-latest
