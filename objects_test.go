@@ -74,6 +74,7 @@ func TestResponses_Find_ReturnsExpectedResponses(t *testing.T) {
 			if ok {
 				require.Equal(t, testData.expectedQuestion, question)
 				require.Equal(t, dummyResponse, result)
+
 				return
 			}
 
@@ -293,6 +294,7 @@ func TestResponse_SubmitCharacter_ReturnsExpectedCharacter(t *testing.T) {
 	for submitCharacterOverride, expected := range tests {
 		t.Run(submitCharacterOverride, func(t *testing.T) {
 			t.Parallel()
+
 			res := response{
 				submitCharacterOverride: submitCharacterOverride,
 			}

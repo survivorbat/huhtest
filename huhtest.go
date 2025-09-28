@@ -193,7 +193,7 @@ const (
 	// ConfirmAffirm is the 'yes' answer in a Confirm question
 	ConfirmAffirm confirmResponse = "yes"
 
-	// ConfirmAffirm is the 'no' answer in a Confirm question
+	// ConfirmNegative is the 'no' answer in a Confirm question
 	ConfirmNegative confirmResponse = "no"
 )
 
@@ -272,8 +272,7 @@ func (r *Responder) RespondOnce() *Responder {
 	return r
 }
 
-// RespondOnce will make the test error if the question is posed more than the specified amount of times, but it will still return
-// an answer.
+// RespondTimes will make the test error if the question is posed more than the specified amount of times, but it will still return an answer.
 func (r *Responder) RespondTimes(times int) *Responder {
 	r.latestResponse.expectedTimes = times
 	return r
@@ -339,7 +338,9 @@ func (r *Responder) Start(t testingi.T, timeout time.Duration) (*io.PipeReader, 
 				answer += response.submitCharacter()
 
 				log("Replying:", readableReplacer.Replace(answer))
-				if _, err := answerInput.Write([]byte(answer)); err != nil {
+
+				_, err = answerInput.Write([]byte(answer))
+				if err != nil {
 					t.Error(err)
 				}
 
